@@ -1,13 +1,12 @@
 require 'colorize'
 
-
 module Colorable
-  RED = "RED".red
-  BLUE = "BLUE".blue
-  GREEN = "GREEN".green
-  YELLOW = "YELLOW".yellow
-  PINK = "PINK".magenta
-  ORANGE = "ORANGE".light_red
+  RED = 9711.chr(Encoding::UTF_8).red
+  BLUE = 9711.chr(Encoding::UTF_8).blue
+  GREEN = 9711.chr(Encoding::UTF_8).green
+  YELLOW = 9711.chr(Encoding::UTF_8).light_yellow
+  PINK = 9711.chr(Encoding::UTF_8).light_magenta
+  ORANGE = 9711.chr(Encoding::UTF_8).yellow
 end
 
 class Board
@@ -23,7 +22,7 @@ class Board
   end
 
   def display_board
-    print "| #{board[0]} | #{board[1]} | #{board[2]} | #{board[3]} | "
+    puts "| #{board[0]} | #{board[1]} | #{board[2]} | #{board[3]} | "
   end
 end
 
@@ -38,11 +37,25 @@ class CodePegs < Board
   def add_colored_pegs
     @@board = @@board.concat pegs_colors
   end
-
 end
 
-include Colorable
-new_board = Board.new
-new_peg = CodePegs.new([ORANGE, PINK, BLUE, RED])
-new_peg.add_colored_pegs
-new_board.display_board
+class Game
+  include Colorable
+  attr_accessor :game_board
+  def initialize
+    @game_board = Board.new
+    execution
+  end
+
+  def execution
+    secret_code = CodePegs.new(generate_pegs)
+    secret_code.add_colored_pegs
+    game_board.display_board
+  end
+
+  def generate_pegs
+    [RED, BLUE, GREEN, YELLOW, PINK, ORANGE].sample(4)
+  end
+end
+
+new_game = Game.new
