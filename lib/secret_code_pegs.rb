@@ -7,6 +7,6 @@ class SecretCodePegs < Board
   end
 
   def generate_pegs
-    [RED, BLUE, GREEN, YELLOW, PINK, ORANGE].sample(4)
+    4.times.map {[RED, BLUE, GREEN, YELLOW, PINK, ORANGE].sample}
   end
 end

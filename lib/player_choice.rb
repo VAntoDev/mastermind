@@ -9,7 +9,7 @@ class PlayerChoice
   
   def check_choice
     @chosen_colors = convert_to_costants
-    true if chosen_colors.uniq.length == 4
+    true if chosen_colors.length == 4
   end
 
   def convert_to_costants
@@ -31,6 +31,13 @@ class PlayerChoice
         return []
       end
     end
+  end
+
+  def self.show_choice(guess)
+    player_guess = CodePegs.new(guess)
+    player_game_board = Board.new
+    player_guess.add_colored_pegs
+    player_game_board.display_board
   end
 end
   
