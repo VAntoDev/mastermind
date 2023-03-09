@@ -10,18 +10,20 @@ class CodePegs < Board
   end
 
   def check_key_pegs
-    puts pegs_colors
-    puts @@secret_code
+    secret_copy = []
+    secret_copy = secret_copy + @@secret_code
     if pegs_colors == @@secret_code
       true
     else
-      secret_copy = @@secret_code
       secret_copy.each_with_index do | secret_color, index |
-        if secret_copy.uniq.include?(pegs_colors[index]) #right color (not working correctly)
+        if secret_color == pegs_colors[index] #right color and position
+          @right_position = @right_position + 1
+        end
+      end
+      pegs_colors.each_with_index do | peg_color, index |
+        if secret_copy.include?(peg_color) #right color
           @right_color = @right_color + 1
-          if secret_color == pegs_colors[index] #right color and position (working)
-            @right_position = @right_position + 1
-          end
+          secret_copy.delete_at(secret_copy.index(peg_color))
         end
       end
     end
