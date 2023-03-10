@@ -4,64 +4,72 @@ require_relative './secret_code_pegs'
 require_relative './code_pegs'
 require_relative './player_choice'
 require_relative './cpu_game'
-class Game
-  include Colorable
+
+class CpuGame
   attr_accessor :game_board
+  include Colorable 
   def initialize
     @game_board = Board.new
     execution
   end
 
   def execution
-    puts 'This is Mastermind! Guess the 4 colors of the random secret code to win!'
-    puts 'Do you want to be the code BREAKER (1) or the code MAKER (2)?'
-    who_plays = gets.chomp.to_i
-    if who_plays == 1
-      puts "\nYou're the code BREAKER! The cpu will generate a random code of 4 colors for you to guess."
-      game_start
-      @turn = 1
-      turn_order
-      restart
-    elsif who_plays == 2
-      puts "You're to code MAKER! The cpu will have to guess your secret code."
-      write_code_colored
-      cpu_game = CpuGame.new
-    else
-      puts "Incorrect input! Please retry"
-    end
+    game_start
+    @turn = 1
+    generate_cpu_pegs
+    turn_order
+    restart
   end
 
   def game_start
-    secret_code = SecretCodePegs.new
-    secret_code.add_colored_pegs('human')
-    secret_code.save_secret_code('human')
+    secret_code = ask_secret_code
+    secret_code.chosen_colors
+    secret_code.add_colored_pegs('cpu')
+    secret_code.save_secret_code('cpu')
+    game_board.display_board
     puts "Secret code generated, lets start!\n"
-    write_code_colored
   end
 
-  def ask_guess
-    guess = PlayerChoice.new(gets.chomp.split)
-    if guess.check_choice == true
-      guess.chosen_colors
+  def ask_secret_code
+    secret_code = PlayerChoice.new(gets.chomp.split)
+    if secret_code.check_choice == true
+      secret_code
     else
       puts "\nInput error! Remember to follow the example."
       write_code_colored
-      ask_guess
+      ask_secret_code
     end
   end
 
-  def check_guess(guess)
+  def generate_cpu_pegs()
     puts "\nTurn ##{@turn}"
-    puts "Your guess is: "
-    PlayerChoice.show_choice(guess)
-    check = CodePegs.new(guess)
+    guess = SecretCodePegs.new
+    PlayerChoice.show_choice(guess.generate_pegs)
+    check = CodePegs.new(guess.generate_pegs)
     if check.check_key_pegs == true
-      puts "You won!"
+      puts "You lost! The cpu cracked the code."
       true
     else
       puts "Right color: #{check.right_color}"
       puts "Right color and position: #{check.right_position}"
       @turn += 1
+    end
+  end
+
+  def turn_order
+    loop do
+      if @turn == 12
+        puts "\nThis is the cpu's last turn! You could win!"
+      end
+
+      if generate_cpu_pegs == true
+        break
+      end
+
+      if @turn == 13
+        puts "You won!! You're smarter then this piece of metal, good job!"
+        break
+      end
     end
   end
 
@@ -74,8 +82,13 @@ class Game
       puts "\nThanks for playing Mastermind!"
     end
   end
+end
 
-  def turn_order
+
+=begin
+
+
+  def self.turn_order
     loop do
       if @turn == 12
         puts "\nThis is the last turn! Be careful with your choice."
@@ -93,3 +106,5 @@ class Game
     end
   end
 end
+
+=end

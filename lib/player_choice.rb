@@ -1,5 +1,7 @@
 require_relative "./colorable"
-class PlayerChoice
+require_relative "./board"
+
+class PlayerChoice < Board
   include Colorable
   attr_accessor :chosen_colors
   
@@ -36,7 +38,7 @@ class PlayerChoice
   def self.show_choice(guess)
     player_guess = CodePegs.new(guess)
     player_game_board = Board.new
-    player_guess.add_colored_pegs
+    player_guess.add_colored_pegs('human')
     player_game_board.display_board
   end
 end
