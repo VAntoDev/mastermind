@@ -16,8 +16,9 @@ class CpuGame
   def execution
     game_start
     @turn = 1
-    generate_cpu_pegs
-    turn_order
+    unless generate_cpu_pegs == true
+      turn_order
+    end
     restart
   end
 
@@ -44,15 +45,20 @@ class CpuGame
   def generate_cpu_pegs()
     puts "\nTurn ##{@turn}"
     guess = SecretCodePegs.new
-    PlayerChoice.show_choice(guess.generate_pegs)
-    check = CodePegs.new(guess.generate_pegs)
+    
+    cpu_guess = guess.cpu_tactic
+    PlayerChoice.show_choice(cpu_guess)
+    check = CodePegs.new(cpu_guess)
     if check.check_key_pegs == true
       puts "You lost! The cpu cracked the code."
       true
     else
       puts "Right color: #{check.right_color}"
+      guess.pegs_colors = cpu_guess
+      guess.save_colors(check.right_color)
       puts "Right color and position: #{check.right_position}"
       @turn += 1
+      sleep(2)
     end
   end
 
@@ -75,6 +81,7 @@ class CpuGame
 
   def restart
     puts "Do you want to play again? Press Y to play again"
+    SecretCodePegs.classes_to_zero
     if gets.chomp.upcase == "Y"
       puts ""
       new_game = Game.new
@@ -83,28 +90,3 @@ class CpuGame
     end
   end
 end
-
-
-=begin
-
-
-  def self.turn_order
-    loop do
-      if @turn == 12
-        puts "\nThis is the last turn! Be careful with your choice."
-      end
-
-      if check_guess(ask_guess) == true
-        break
-      end
-
-      if @turn == 13
-        puts "You lost! The secret code was"
-        game_board.display_board
-        break
-      end
-    end
-  end
-end
-
-=end

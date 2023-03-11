@@ -6,6 +6,8 @@ module Colorable
   PINK = "P".light_magenta
   ORANGE = "O".yellow
 
+  ALL_COLORS = [RED, BLUE, GREEN, YELLOW, PINK, ORANGE]
+
   def write_code_colored
     puts "Write down here your code, choose four colors between " + "Red(R) ".red + "Green(G) ".green + "Blue(B) ".blue + "Yellow(Y) ".light_yellow + "Pink(P) ".light_magenta + "Orange(O)".yellow + '. Example: R P B G'
   end
