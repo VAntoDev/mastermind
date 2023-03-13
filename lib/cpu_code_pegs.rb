@@ -1,5 +1,5 @@
 require_relative './colorable'
-class SecretCodePegs < Board
+class CpuCodePegs < Board
   include Colorable
   attr_accessor :pegs_colors
   @@colors_to_try = []

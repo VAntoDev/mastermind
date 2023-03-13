@@ -1,6 +1,6 @@
 require_relative './colorable'
 require_relative './board'
-require_relative './secret_code_pegs'
+require_relative './cpu_code_pegs'
 require_relative './code_pegs'
 require_relative './player_choice'
 require_relative './cpu_game'
@@ -44,7 +44,7 @@ class CpuGame
 
   def generate_cpu_pegs()
     puts "\nTurn ##{@turn}"
-    guess = SecretCodePegs.new
+    guess = CpuCodePegs.new
     
     cpu_guess = guess.cpu_tactic
     PlayerChoice.show_choice(cpu_guess)
@@ -81,7 +81,7 @@ class CpuGame
 
   def restart
     puts "Do you want to play again? Press Y to play again"
-    SecretCodePegs.classes_to_zero
+    CpuCodePegs.classes_to_zero
     if gets.chomp.upcase == "Y"
       puts ""
       new_game = Game.new

@@ -1,11 +1,12 @@
 require_relative './colorable'
 require_relative './board'
-require_relative './secret_code_pegs'
+require_relative './cpu_code_pegs'
 require_relative './code_pegs'
 require_relative './player_choice'
 require_relative './cpu_game'
+require_relative './instructions'
 class Game
-  include Colorable
+  include Colorable, Instructions
   attr_accessor :game_board
   def initialize
     @game_board = Board.new
@@ -13,7 +14,7 @@ class Game
   end
 
   def execution
-    puts 'This is Mastermind! Guess the 4 colors of the random secret code to win!'
+    puts game_explanation
     puts 'Do you want to be the code BREAKER (1) or the code MAKER (2)?'
     who_plays = gets.chomp.to_i
     if who_plays == 1
@@ -23,7 +24,7 @@ class Game
       turn_order
       restart
     elsif who_plays == 2
-      puts "You're to code MAKER! The cpu will have to guess your secret code."
+      puts "You're the code MAKER! The cpu will have to guess your secret code."
       write_code_colored
       cpu_game = CpuGame.new
     else
@@ -32,7 +33,7 @@ class Game
   end
 
   def game_start
-    secret_code = SecretCodePegs.new
+    secret_code = CpuCodePegs.new
     secret_code.add_colored_pegs('human')
     secret_code.save_secret_code('human')
     puts "Secret code generated, lets start!\n"
