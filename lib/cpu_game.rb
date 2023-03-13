@@ -73,7 +73,7 @@ class CpuGame
       end
 
       if @turn == 13
-        puts "You won!! You're smarter then this piece of metal, good job!"
+        puts "You won!! You're smarter than this program, good job!"
         break
       end
     end
