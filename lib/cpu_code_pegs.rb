@@ -24,12 +24,12 @@ class CpuCodePegs < Board
 
   def exclude_used_combinations
     new_try = @@colors_to_try.shuffle
-      if @@tries.include?(new_try)
-        cpu_tactic
-      else
-        @@tries << new_try
-        new_try
-      end
+    if @@tries.include?(new_try)
+      cpu_tactic
+    else
+      @@tries << new_try
+      new_try
+    end
   end
 
   def generate_pegs
