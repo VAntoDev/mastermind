@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './colorable'
 require_relative './board'
 require_relative './cpu_code_pegs'
@@ -5,9 +7,11 @@ require_relative './code_pegs'
 require_relative './player_choice'
 require_relative './cpu_game'
 
+# handles the cpu's game execution and asks the player for the master code
 class CpuGame
   attr_accessor :game_board
-  include Colorable 
+
+  include Colorable
   def initialize
     @game_board = Board.new
     execution
@@ -16,9 +20,7 @@ class CpuGame
   def execution
     game_start
     @turn = 1
-    unless generate_cpu_pegs == true
-      turn_order
-    end
+    turn_order unless generate_cpu_pegs == true
     restart
   end
 
@@ -42,15 +44,14 @@ class CpuGame
     end
   end
 
-  def generate_cpu_pegs()
+  def generate_cpu_pegs
     puts "\nTurn ##{@turn}"
     guess = CpuCodePegs.new
-    
     cpu_guess = guess.cpu_tactic
     PlayerChoice.show_choice(cpu_guess)
     check = CodePegs.new(cpu_guess)
     if check.check_key_pegs == true
-      puts "You lost! The cpu cracked the code."
+      puts 'You lost! The cpu cracked the code.'
       true
     else
       puts "Right color: #{check.right_color}"
@@ -64,13 +65,9 @@ class CpuGame
 
   def turn_order
     loop do
-      if @turn == 12
-        puts "\nThis is the cpu's last turn! You could win!"
-      end
+      puts "\nThis is the cpu's last turn! You could win!" if @turn == 12
 
-      if generate_cpu_pegs == true
-        break
-      end
+      break if generate_cpu_pegs == true
 
       if @turn == 13
         puts "You won!! You're smarter than this program, good job!"
@@ -80,11 +77,11 @@ class CpuGame
   end
 
   def restart
-    puts "Do you want to play again? Press Y to play again"
-    CpuCodePegs.classes_to_zero
-    if gets.chomp.upcase == "Y"
-      puts ""
-      new_game = Game.new
+    puts 'Do you want to play again? Press Y to play again'
+    CpuCodePegs.tries_to_zero
+    if gets.chomp.upcase == 'Y'
+      puts ''
+      Game.new
     else
       puts "\nThanks for playing Mastermind!"
     end

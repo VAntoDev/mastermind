@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require_relative './colorable'
+
+# explains how the game works to the player
 module Instructions
   include Colorable
   def game_explanation
@@ -14,14 +18,14 @@ module Instructions
 
       This is an example of master code:
        _______________
-      | #{RED} | #{YELLOW} | #{RED} | #{BLUE} | 
+      | #{RED} | #{YELLOW} | #{RED} | #{BLUE} |
        ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
       As you can see duplicates are allowed!
 
       Then the BREAKER will make their guesses, with every guess the code will give some hints on the master code.
       Lets say you want to try a guess like 'R P B Y'
        _______________
-      | #{RED} | #{PINK} | #{BLUE} | #{YELLOW} | 
+      | #{RED} | #{PINK} | #{BLUE} | #{YELLOW} |
        ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
       Right color: 3
       Right color and position: 1

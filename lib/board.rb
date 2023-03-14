@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# generates the board and saves the secret code of the game
 class Board
   attr_accessor :board
 
@@ -11,23 +14,25 @@ class Board
   end
 
   def display_board
-    puts " _______________"
+    puts ' _______________'
     puts "| #{board[0]} | #{board[1]} | #{board[2]} | #{board[3]} | "
-    puts " ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+    puts ' ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾'
   end
 
   def add_colored_pegs(player)
-    if player == "human"
-      @@board = @@board.concat pegs_colors
-    elsif player == "cpu"
-      @@board = @@board.concat chosen_colors
+    case player
+    when 'human'
+      @@board.concat pegs_colors
+    when 'cpu'
+      @@board.concat chosen_colors
     end
   end
 
   def save_secret_code(player)
-    if player == "human"
+    case player
+    when 'human'
       @@secret_code = pegs_colors
-    elsif player == "cpu"
+    when 'cpu'
       @@secret_code = chosen_colors
     end
   end

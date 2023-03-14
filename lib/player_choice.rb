@@ -1,34 +1,37 @@
-require_relative "./colorable"
-require_relative "./board"
+# frozen_string_literal: true
 
+require_relative './colorable'
+require_relative './board'
+
+# check if the playr choice is valid, converts the player choice to the color costants and shows it
 class PlayerChoice < Board
   include Colorable
   attr_accessor :chosen_colors
-  
+
   def initialize(chosen_colors)
-    @chosen_colors = chosen_colors.collect { |x| x.upcase }
+    @chosen_colors = chosen_colors.collect(&:upcase)
   end
-  
+
   def check_choice
     @chosen_colors = convert_to_costants
     true if chosen_colors.length == 4
   end
 
   def convert_to_costants
-    chosen_colors.collect do | color |
+    chosen_colors.collect do |color|
       case color
       when 'R'
-        color = RED
+        RED
       when 'B'
-        color = BLUE
+        BLUE
       when 'G'
-        color = GREEN
+        GREEN
       when 'Y'
-        color = YELLOW
+        YELLOW
       when 'P'
-        color = PINK
+        PINK
       when 'O'
-        color = ORANGE
+        ORANGE
       else
         return []
       end
@@ -42,4 +45,3 @@ class PlayerChoice < Board
     player_game_board.display_board
   end
 end
-  
